@@ -10,7 +10,7 @@ on:
     branches: [develop, feature/auto-release]
     types: [opened, synchronize, reopened, closed]
 #    paths:
-#      - "package.json"
+#      - "package.json" # 测试 github actions
 #  issue_comment:
 #    types: [edited]
 
