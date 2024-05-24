@@ -16,6 +16,7 @@ import 'page/td_count_down_page.dart';
 import 'page/td_date_picker_page.dart';
 import 'page/td_dialog_page.dart';
 import 'page/td_divider_page.dart';
+import 'page/td_dropdown_menu_page.dart';
 import 'page/td_empty_page.dart';
 import 'page/td_font_page.dart';
 import 'page/td_icon_page.dart';
@@ -38,6 +39,7 @@ import 'page/td_switch_page.dart';
 import 'page/td_tabs_page.dart';
 import 'page/td_tag_page.dart';
 import 'page/td_text_page.dart';
+import 'page/td_textarea_page.dart';
 import 'page/td_theme_page.dart';
 import 'page/td_toast_page.dart';
 import 'page/todo_page.dart';
@@ -129,8 +131,7 @@ Map<String, List<ExamplePageModel>> exampleMap = {
     ExamplePageModel(
         text: 'Textarea 多行文本框',
         name: 'textarea',
-        isTodo: true,
-        pageBuilder: _wrapInheritedTheme((context) => const TodoPage())),
+        pageBuilder: _wrapInheritedTheme((context) => const TDTextareaPage())),
     ExamplePageModel(
         text: 'TreeSelect 树形选择器',
         name: 'tree_select',
@@ -208,9 +209,8 @@ Map<String, List<ExamplePageModel>> exampleMap = {
         text: 'Dialog 对话框', name: 'dialog', pageBuilder: _wrapInheritedTheme((context) => const TDDialogPage())),
     ExamplePageModel(
         text: 'DropdownMenu 下拉菜单',
-        name: 'dropdown_menu',
-        isTodo: true,
-        pageBuilder: _wrapInheritedTheme((context) => const TodoPage())),
+        name: 'dropdown-menu',
+        pageBuilder: _wrapInheritedTheme((context) => const TDDropdownMenuPage())),
     ExamplePageModel(
         text: 'Loading 加载', name: 'loading', pageBuilder: _wrapInheritedTheme((context) => const TDLoadingPage())),
     ExamplePageModel(
