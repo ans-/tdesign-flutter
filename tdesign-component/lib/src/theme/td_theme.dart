@@ -10,10 +10,7 @@ import 'td_default_theme.dart';
 
 /// 主题控件
 class TDTheme extends StatelessWidget {
-
-  const TDTheme(
-      {required this.data, required this.child, this.systemData, Key? key})
-      : super(key: key);
+  const TDTheme({required this.data, required this.child, this.systemData, Key? key}) : super(key: key);
 
   /// 仅使用Default主题，不需要切换主题功能
   static bool _needMultiTheme = false;
@@ -32,14 +29,11 @@ class TDTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if(!_needMultiTheme){
+    if (!_needMultiTheme) {
       _singleData = data;
     }
     var extensions = [data];
-    return Theme(data: systemData?.copyWith(
-      extensions: extensions
-    ) ?? ThemeData(extensions: extensions), child: child);
+    return Theme(data: systemData?.copyWith(extensions: extensions) ?? ThemeData(extensions: extensions), child: child);
   }
 
   /// 开启多套主题功能
@@ -50,8 +44,8 @@ class TDTheme extends StatelessWidget {
   /// 设置资源代理,
   /// needAlwaysBuild=true:每次都会走build方法;如果全局有多个Delegate,需要区分情况去获取,则可以设置needAlwaysBuild为true,业务自己判断返回哪个delegate
   /// needAlwaysBuild=false:返回delegate为null,则每次都会走build方法,返回了
-  static void setResourceBuilder(TDTDResourceBuilder delegate,{bool needAlwaysBuild = false}){
-    TDResourceManager.instance.setResourceBuilder(delegate,needAlwaysBuild);
+  static void setResourceBuilder(TDTDResourceBuilder delegate, {bool needAlwaysBuild = false}) {
+    TDResourceManager.instance.setResourceBuilder(delegate, needAlwaysBuild);
   }
 
   /// 获取默认主题数据，全局唯一
@@ -62,18 +56,18 @@ class TDTheme extends StatelessWidget {
   /// 获取主题数据，如果未传context则获取全局唯一的默认数据,
   /// 传了context，则获取最近的主题，取不到则会获取全局唯一默认数据
   static TDThemeData of([BuildContext? context]) {
-    if(!_needMultiTheme || context == null){
+    if (!_needMultiTheme || context == null) {
       // 如果context为null,则返回全局默认主题
       return _singleData ?? TDThemeData.defaultData();
     }
-      // 如果传了context，则从其中获取最近主题
-      try {
-        var data = Theme.of(context).extensions[TDThemeData] as TDThemeData?;
-        return data ?? TDThemeData.defaultData();
-      } catch (e) {
+    // 如果传了context，则从其中获取最近主题
+    try {
+      var data = Theme.of(context).extensions[TDThemeData] as TDThemeData?;
+      return data ?? TDThemeData.defaultData();
+    } catch (e) {
       Log.w('TDTheme', 'TDTheme.of() error: $e');
-        return TDThemeData.defaultData();
-      }
+      return TDThemeData.defaultData();
+    }
   }
 
   /// 获取主题数据，取不到则可空
@@ -96,40 +90,48 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
 
   /// 名称
   late String name;
+
   /// 颜色
   late TDMap<String, Color> colorMap;
+
   /// 字体尺寸
   late TDMap<String, Font> fontMap;
+
   /// 圆角
   late TDMap<String, double> radiusMap;
+
   /// 字体样式
   late TDMap<String, FontFamily> fontFamilyMap;
+
   /// 阴影
   late TDMap<String, List<BoxShadow>> shadowMap;
+
   /// 间隔
   late TDMap<String, double> spacerMap;
+
   /// 映射关系
   late TDMap<String, String> refMap;
+
   /// 额外定义的结构
   late TDExtraThemeData? extraThemeData;
 
-  TDThemeData(
-      {required this.name,
-      required this.colorMap,
-      required this.fontMap,
-      required this.radiusMap,
-      required this.fontFamilyMap,
-      required this.shadowMap,
-      required this.spacerMap,
-      required this.refMap,
-      this.extraThemeData,});
+  TDThemeData({
+    required this.name,
+    required this.colorMap,
+    required this.fontMap,
+    required this.radiusMap,
+    required this.fontFamilyMap,
+    required this.shadowMap,
+    required this.spacerMap,
+    required this.refMap,
+    this.extraThemeData,
+  });
 
   /// 获取默认Data，一个App里只有一个，用于没有context的地方
   static TDThemeData defaultData({TDExtraThemeData? extraThemeData}) {
-    _defaultThemeData ??= fromJson(
-            _defaultThemeName, TDDefaultTheme.defaultThemeConfig,
-            extraThemeData: extraThemeData) ??
-        _emptyData(_defaultThemeName, extraThemeData: extraThemeData);
+    _defaultThemeData ??=
+        fromJson(_defaultThemeName, TDDefaultTheme.defaultThemeConfig, extraThemeData: extraThemeData) ??
+            _emptyData(_defaultThemeName, extraThemeData: extraThemeData);
 
     return _defaultThemeData!;
   }
@@ -145,8 +147,16 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
     Map<String, double>? marginMap,
     TDExtraThemeData? extraThemeData,
   }) {
-
-    return copyWith(name: name,colorMap: colorMap,fontMap: fontMap,radiusMap: radiusMap,fontFamilyMap: fontFamilyMap,shadowMap: shadowMap,marginMap: marginMap,extraThemeData: extraThemeData) as TDThemeData;
+    return copyWith(
+      name: name,
+      colorMap: colorMap,
+      fontMap: fontMap,
+      radiusMap: radiusMap,
+      fontFamilyMap: fontFamilyMap,
+      shadowMap: shadowMap,
+      marginMap: marginMap,
+      extraThemeData: extraThemeData,
+    ) as TDThemeData;
   }
 
   @override
@@ -161,21 +171,22 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
     TDExtraThemeData? extraThemeData,
   }) {
     var result = TDThemeData(
-        name: name ?? 'default',
-        colorMap: _copyMap<Color>(this.colorMap, colorMap),
-        fontMap: _copyMap<Font>(this.fontMap, fontMap),
-        radiusMap: _copyMap<double>(this.radiusMap, radiusMap),
-        fontFamilyMap: _copyMap<FontFamily>(this.fontFamilyMap, fontFamilyMap),
-        shadowMap: _copyMap<List<BoxShadow>>(this.shadowMap, shadowMap),
-        spacerMap: _copyMap<double>(spacerMap, marginMap),
-        refMap: _copyMap<String>(refMap, refMap),
-        extraThemeData: extraThemeData ?? this.extraThemeData);
+      name: name ?? 'default',
+      colorMap: _copyMap<Color>(this.colorMap, colorMap),
+      fontMap: _copyMap<Font>(this.fontMap, fontMap),
+      radiusMap: _copyMap<double>(this.radiusMap, radiusMap),
+      fontFamilyMap: _copyMap<FontFamily>(this.fontFamilyMap, fontFamilyMap),
+      shadowMap: _copyMap<List<BoxShadow>>(this.shadowMap, shadowMap),
+      spacerMap: _copyMap<double>(spacerMap, marginMap),
+      refMap: refMap,
+      extraThemeData: extraThemeData ?? this.extraThemeData,
+    );
     return result;
   }
 
   /// 拷贝Map,防止内层
   TDMap<String, T> _copyMap<T>(TDMap<String, T> src, Map<String, T>? add) {
-    var map = TDMap<String, T>(factory: ()=>src);
+    var map = TDMap<String, T>(factory: () => src);
 
     src.forEach((key, value) {
       map[key] = value;
@@ -187,15 +198,14 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
   }
 
   /// 创建空对象
-  static TDThemeData _emptyData(String name,
-      {TDExtraThemeData? extraThemeData}) {
+  static TDThemeData _emptyData(String name, {TDExtraThemeData? extraThemeData}) {
     var refMap = TDMap<String, String>();
     return TDThemeData(
         name: name,
         colorMap: TDMap(factory: () => defaultData().colorMap, refs: refMap),
-        fontMap: TDMap(factory: () => defaultData().fontMap, refs:refMap),
+        fontMap: TDMap(factory: () => defaultData().fontMap, refs: refMap),
         radiusMap: TDMap(factory: () => defaultData().radiusMap, refs: refMap),
-        fontFamilyMap: TDMap(factory: () => defaultData().fontFamilyMap, refs:refMap),
+        fontFamilyMap: TDMap(factory: () => defaultData().fontFamilyMap, refs: refMap),
         shadowMap: TDMap(factory: () => defaultData().shadowMap, refs: refMap),
         spacerMap: TDMap(factory: () => defaultData().spacerMap, refs: refMap),
         refMap: refMap);
@@ -233,8 +243,7 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
         /// 设置字体尺寸
         Map<String, dynamic>? fontsMap = curThemeMap['font'];
         fontsMap?.forEach((key, value) {
-          theme.fontMap[key] =
-              Font.fromJson(value);
+          theme.fontMap[key] = Font.fromJson(value);
         });
 
         /// 设置圆角
@@ -258,8 +267,7 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
               color: toColor(element['color']) ?? Colors.black,
               blurRadius: element['blurRadius'].toDouble(),
               spreadRadius: element['spreadRadius'].toDouble(),
-              offset: Offset(element['offset']?['x'].toDouble() ?? 0,
-                  element['offset']?['y'].toDouble() ?? 0),
+              offset: Offset(element['offset']?['x'].toDouble() ?? 0, element['offset']?['y'].toDouble() ?? 0),
             ));
           });
 
@@ -281,8 +289,7 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
         }
         return theme;
       } else {
-        Log.e('TTheme',
-            'load theme error ,not found the theme with name:${name}');
+        Log.e('TTheme', 'load theme error ,not found the theme with name:${name}');
         return null;
       }
     } catch (e) {
@@ -334,14 +341,15 @@ class TDThemeData extends ThemeExtension<TDThemeData> {
       return this;
     }
     return TDThemeData(
-        name: other.name,
-        colorMap: other.colorMap,
-        fontMap: other.fontMap,
-        radiusMap: other.radiusMap,
-        fontFamilyMap: other.fontFamilyMap,
-        shadowMap: other.shadowMap,
-        spacerMap: other.spacerMap,
-        refMap: other.refMap);
+      name: other.name,
+      colorMap: other.colorMap,
+      fontMap: other.fontMap,
+      radiusMap: other.radiusMap,
+      fontFamilyMap: other.fontFamilyMap,
+      shadowMap: other.shadowMap,
+      spacerMap: other.spacerMap,
+      refMap: other.refMap,
+    );
   }
 }
 
@@ -354,28 +362,49 @@ abstract class TDExtraThemeData {
 typedef DefaultMapFactory = TDMap? Function();
 
 /// 自定义Map
-class TDMap<K,V> extends SplayTreeMap<K, V>{
+class TDMap<K, V> {
+  DefaultMapFactory? factory;
+  TDMap? refs;
+  final SplayTreeMap<K, V> _map;
 
-  TDMap({this.factory, this.refs});
-DefaultMapFactory? factory;
-TDMap? refs;
+  TDMap({this.factory, this.refs, int Function(K key1, K key2)? compare}) : _map = SplayTreeMap<K, V>(compare);
 
-  @override
   V? operator [](Object? key) {
     // return super[key];
-     key = refs?[key] ?? key;
-    var value = super[key];
-    if(value != null){
+    key = refs?._map[key] ?? key;
+    var value = _map[key];
+    if (value != null) {
       return value;
     }
     var defaultValue = factory?.call()?.get(key);
-    if(defaultValue is V){
+    if (defaultValue is V) {
       return defaultValue;
     }
     return null;
   }
 
-  V? get(Object? key){
-    return super[key];
+  V? get(Object? key) {
+    return _map[key];
   }
+
+  V? remove(Object? key) => _map.remove(key);
+  void operator []=(K key, V value) => _map[key] = value;
+  V putIfAbsent(K key, V ifAbsent()) => _map.putIfAbsent(key, ifAbsent);
+  V update(K key, V update(V value), {V Function()? ifAbsent}) => _map.update(key, update, ifAbsent: ifAbsent);
+  void updateAll(V update(K key, V value)) => _map.updateAll(update);
+  void addAll(Map<K, V> other) => _map.addAll(other);
+  bool get isEmpty => _map.isEmpty;
+  bool get isNotEmpty => _map.isNotEmpty;
+  void forEach(void Function(K key, V value) action) => _map.forEach(action);
+  int get length => _map.length;
+  void clear() => _map.clear();
+  bool containsKey(Object? key) => _map.containsKey(key);
+  bool containsValue(Object? value) => _map.containsValue(value);
+  Iterable<K> get keys => _map.keys;
+  Iterable<V> get values => _map.values;
+  Iterable<MapEntry<K, V>> get entries => _map.entries;
+  K? firstKey() => _map.firstKey();
+  K? lastKey() => _map.lastKey();
+  K? lastKeyBefore(K key) => _map.lastKeyBefore(key);
+  K? firstKeyAfter(K key) => _map.firstKeyAfter(key);
 }
